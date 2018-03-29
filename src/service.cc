@@ -42,7 +42,7 @@ DWORD set_status (DWORD status_code, DWORD win32_rcode, DWORD service_rcode) {
 
 	memset (&status, 0, sizeof (SERVICE_STATUS));
 
-	status.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
+	status.dwServiceType = SERVICE_WIN32_OWN_PROCESS | SERVICE_INTERACTIVE_PROCESS;
 	status.dwCurrentState = status_code;
 	status.dwControlsAccepted = SERVICE_ACCEPT_SHUTDOWN | SERVICE_ACCEPT_STOP;
 	status.dwWin32ExitCode = (service_rcode
@@ -203,7 +203,7 @@ NAN_METHOD(Add) {
 	const char* ppassword = password.length() ? password.c_str() : NULL;
 
 	SC_HANDLE svc_handle = CreateService (scm_handle, *name, *display_name,
-			SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START,
+			SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS | SERVICE_INTERACTIVE_PROCESS, SERVICE_AUTO_START,
 			SERVICE_ERROR_NORMAL, *path, 0, 0, deps, pusername,
 			ppassword);
 
